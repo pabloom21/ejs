@@ -3,9 +3,16 @@ Listar todos los tickets que tiene un determinado usuario
 '''
 import psycopg2
 import pandas
-def tickets(user): # Devuelve los tickets de un determinado usuario
+import config as CF
 
-	conn = psycopg2.connect(database = 'postgres', user = 'postgres', host = 'localhost', password = 'python', port = 5432)
+conn = psycopg2.connect(
+    database=CF.DATABASE,
+    user=CF.USER,
+    password=CF.PASSWORD,
+    host=CF.HOST,
+    port=CF.PORT
+)
+def tickets(user): # Devuelve los tickets de un determinado usuario
 	cur = conn.cursor()
 	consulta = f"""
 	select
@@ -24,12 +31,9 @@ def tickets(user): # Devuelve los tickets de un determinado usuario
 	"""
 	tabla = pandas.read_sql(consulta, conn)
 	cur.close()
-	conn.close()
-
 	return tabla
 
 def users(): # Devuelve una lista con los usuarios que se encuentran en la tabla de tickets
-	conn = psycopg2.connect(database = 'postgres', user = 'postgres', host = 'localhost', password = 'python', port = 5432)
 	cur = conn.cursor()
 	consulta = """
 	select distinct
@@ -43,7 +47,6 @@ def users(): # Devuelve una lista con los usuarios que se encuentran en la tabla
 	"""
 	tabla = pandas.read_sql(consulta, conn)
 	cur.close()
-	conn.close()
 	lista = []
 	for i in tabla.user_name:
 		lista.append(i)
@@ -71,3 +74,4 @@ def main():
 if __name__ == '__main__':
 	main()
 
+conn.close()
