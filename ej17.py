@@ -82,8 +82,7 @@ def main():
 			for x in ti.ticket_user_id_vinculation_type:
 				if x == 'Asignada a':
 					enl = f'<a href={enlace[c]}>{x}: {t[c]}</a>'
-					if enl not in fin:
-						fin.append(enl)
+					fin.append(enl)
 				c += 1
 			f = open(f'{usuario}.html', 'w', encoding='utf-8')
 			f.write(f'Tickets del usuario {usuario}: \n')
@@ -94,5 +93,6 @@ def main():
  
 if __name__ == '__main__':
 	main()
+
 
 
