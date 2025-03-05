@@ -61,8 +61,9 @@ def users(conn): # Devuelve una lista con los usuarios que se encuentran en la t
 def main():
 	conn = conectar(CF)
 	usuarios = users(conn)
-	#usuarios = ['arperezg']
+	#usuarios = ['jgonzal']
 	for usuario in usuarios:
+		o = 0
 		ti = tickets(usuario, conn)
 		if ti.empty != True:
 			t = []
@@ -76,7 +77,20 @@ def main():
 				if j:
 					enlace.append(j)
 				else:
-					t.append('None')
+					enlace.append('None')
+			instancia = list()
+			grupo = list()
+			for k in ti.glpi_instance_name:
+				if k:
+					instancia.append(k)
+				else:
+					instancia.append('None')
+			for m in ti.group_name:
+				if m:
+					grupo.append(m)
+				else:
+					grupo.append('None')
+
 			fin = []
 			c = 0
 			for x in ti.ticket_user_id_vinculation_type:
@@ -87,9 +101,17 @@ def main():
 			f = open(f'{usuario}.html', 'w', encoding='utf-8')
 			f.write(f'Tickets del usuario {usuario}: \n')
 			for j in fin:
-				f.write(f'{j} \n')
+				f.write(f'{instancia[o]}, {grupo[o]}, {j}  \n')
+				if o != len(instancia)-1:
+					if instancia[o] != instancia[o+1]:
+						f.write('\n')
+					if grupo[o] != grupo[o+1]:
+						f.write('\n')
+				o += 1
 			f.close()
 	desconectar(conn)
  
 if __name__ == '__main__':
 	main()
+
+
