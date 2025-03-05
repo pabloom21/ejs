@@ -60,11 +60,11 @@ def users(conn): # Devuelve una lista con los usuarios que se encuentran en la t
 
 def main():
 	conn = conectar(CF)
-	#usuarios = users(conn)
-	usuarios = ['jgonzal']
+	usuarios = users(conn)
+	#usuarios = ['jgonzal']
 	for usuario in usuarios:
+		o = 0
 		ti = tickets(usuario, conn)
-		print(ti)
 		if ti.empty != True:
 			t = []
 			for i in ti.ticket_name:
@@ -100,14 +100,14 @@ def main():
 				c += 1
 			f = open(f'{usuario}.html', 'w', encoding='utf-8')
 			f.write(f'Tickets del usuario {usuario}: \n')
-			o = 0
 			for j in fin:
 				f.write(f'{instancia[o]}, {grupo[o]}, {j}  \n')
+				if o != len(instancia)-1:
+					if instancia[o] != instancia[o+1]:
+						f.write('\n')
+					if grupo[o] != grupo[o+1]:
+						f.write('\n')
 				o += 1
-				if instancia[o-1] != instancia[o] and o != 0:
-					f.write('\n')
-				if grupo[o-1] != grupo[o] and o != 0:
-					f.write('\n')
 			f.close()
 	desconectar(conn)
  
