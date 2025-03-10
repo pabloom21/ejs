@@ -63,61 +63,40 @@ def main():
 	usuarios = users(conn)
 	#usuarios = ['jgonzal']
 	for usuario in usuarios:
-		o = 0
 		ti = tickets(usuario, conn)
 		if ti.empty != True:
-			t = []
-			for i in ti.ticket_name:
-				if i:
-					t.append(i)
-				else:
-					t.append('None')
-			enlace = []
-			for j in ti.ticket_link:
-				if j:
-					enlace.append(j)
-				else:
-					enlace.append('None')
-			instancia = list()
-			grupo = list()
-			for k in ti.glpi_instance_name:
-				if k:
-					instancia.append(k)
-				else:
-					instancia.append('None')
-			for m in ti.group_name:
-				if m:
-					grupo.append(m)
-				else:
-					grupo.append('None')
-
-			fin = []
+			enlaces = list()
 			c = 0
 			truelist = list()
-			for x in ti.ticket_user_id_vinculation_type:
-				if x == 'Asignada a':
-					enl = f'<a href={enlace[c]}>{x}: {t[c]}</a>'
-					fin.append(enl)
+			for x in ti.ticket_link:
+				if x:
+					enl = f'<a href={ti.ticket_link[c]}> {ti.ticket_name[c]}</a>'
+					enlaces.append(enl)
 				else:
-					fin.append('None')
+					enlaces.append('None')
 				c += 1
-			for d in range(len(fin)):
-				if fin[d] != 'None':
+			for d in range(len(enlaces)):
+				if enlaces[d] != 'None' and ti.ticket_user_id_vinculation_type[d] == 'Asignada a':
 					truelist.append(d)
-
 			f = open(f'{usuario}.html', 'w', encoding='utf-8')
 			f.write(f'Tickets del usuario {usuario}: \n<br>')
-			for h in truelist:
-				f.write(f'{instancia[h]}, {grupo[h]}, {fin[h]}  \n<br>')
-				if h != len(instancia)-1:
-					if instancia[h] != instancia[h+1]:
-						f.write('\n')
-					if grupo[h] != grupo[h+1]:
-						f.write('\n')
-				o += 1
+			for h in range(len(truelist)):
+				ind = truelist[h]
+				if h == 0:
+					f.write(f'- {ti.glpi_instance_name[ind]}\n<br>')
+					f.write(f'<p style="text-indent: 30px;">* {ti.group_name[ind]}\n<br>')
+				elif h != 0 and ti.glpi_instance_name[ind] != ti.glpi_instance_name[ind-1]:
+					f.write('\n<br>')
+					f.write(f'- {ti.glpi_instance_name[ind]}\n<br>')
+				elif h != 0 and ti.group_name[ind] != ti.group_name[ind-1]:
+					f.write('\n<br>')
+					f.write(f'<p style="text-indent: 30px;">* {ti.group_name[ind]}\n<br>')
+				f.write(f'<p style="text-indent: 30px;">{enlaces[h]}  \n<br>')
 			f.close()
+
 	desconectar(conn)
  
 if __name__ == '__main__':
 	main()
+
 
