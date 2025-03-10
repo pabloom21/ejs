@@ -82,14 +82,16 @@ def main():
 			f.write(f'Tickets del usuario {usuario}: \n<br>')
 			for h in range(len(truelist)):
 				ind = truelist[h]
+				ind_1 = truelist[h-1]
 				if h == 0:
 					f.write(f'- {ti.glpi_instance_name[ind]}\n<br>')
 					f.write(f'<p style="text-indent: 30px;">* {ti.group_name[ind]}\n<br>')
-				elif h != 0 and ti.glpi_instance_name[ind] != ti.glpi_instance_name[ind-1]:
+				if h != 0 and ti.glpi_instance_name[ind] != ti.glpi_instance_name[ind_1]:
 					f.write('\n<br>')
 					f.write(f'- {ti.glpi_instance_name[ind]}\n<br>')
-				elif h != 0 and ti.group_name[ind] != ti.group_name[ind-1]:
+				if h != 0 and ti.group_name[ind] != ti.group_name[ind_1]:
 					f.write('\n<br>')
+					print(ti.group_name[ind])
 					f.write(f'<p style="text-indent: 30px;">* {ti.group_name[ind]}\n<br>')
 				f.write(f'<p style="text-indent: 30px;">{enlaces[h]}  \n<br>')
 			f.close()
@@ -98,5 +100,6 @@ def main():
  
 if __name__ == '__main__':
 	main()
+
 
 
