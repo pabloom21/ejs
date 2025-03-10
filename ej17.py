@@ -93,19 +93,26 @@ def main():
 
 			fin = []
 			c = 0
+			truelist = list()
 			for x in ti.ticket_user_id_vinculation_type:
 				if x == 'Asignada a':
 					enl = f'<a href={enlace[c]}>{x}: {t[c]}</a>'
 					fin.append(enl)
+				else:
+					fin.append('None')
 				c += 1
+			for d in range(len(fin)):
+				if fin[d] != 'None':
+					truelist.append(d)
+
 			f = open(f'{usuario}.html', 'w', encoding='utf-8')
-			f.write(f'Tickets del usuario {usuario}: \n')
-			for j in fin:
-				f.write(f'{instancia[o]}, {grupo[o]}, {j}  \n')
-				if o != len(instancia)-1:
-					if instancia[o] != instancia[o+1]:
+			f.write(f'Tickets del usuario {usuario}: \n<br>')
+			for h in truelist:
+				f.write(f'{instancia[h]}, {grupo[h]}, {fin[h]}  \n<br>')
+				if h != len(instancia)-1:
+					if instancia[h] != instancia[h+1]:
 						f.write('\n')
-					if grupo[o] != grupo[o+1]:
+					if grupo[h] != grupo[h+1]:
 						f.write('\n')
 				o += 1
 			f.close()
