@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Código realizado usando un csv llamado contenido_bd_2 inventado, el real es contenido_bd
+# Datos de contenido_bd_2 inventados para comprobar funcionamiento
 def procesar_datos(csv_file):
     # cargo el CSV y proceso los datos para obtener valores máximos por mes.
     df = pd.read_csv(csv_file, sep=';', encoding='utf-8')
@@ -41,7 +41,52 @@ def generar_graficos(resumen):
     plt.savefig('evolucion_datalake_2.png')
     plt.show()
 
+def generar_graficos_por_esquema(csv_file):
+    # Cargo el CSV y agrupo los datos por mes y esquema
+    df = pd.read_csv(csv_file, sep=';', encoding='utf-8')
+    df['fecha_extraccion'] = pd.to_datetime(df['fecha_extraccion'])
+    df['mes'] = df['fecha_extraccion'].dt.to_period('M')
+    resumen_esquema = df.groupby(['mes', 'esquema']).agg(
+        tablas=('nombre', lambda x: x[df['tipo'] == 'table'].nunique()),
+        vistas=('nombre', lambda x: x[df['tipo'].str.contains('view')].nunique()),
+        registros=('registros', 'sum')
+    ).reset_index()
+    resumen_esquema.to_csv('resumen_datalake_por_esquema_2.csv', sep=';', index=False, encoding='utf-8')
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    fig.suptitle('Evolución del uso del Datalake por Esquema', fontsize=16)
+    # Grafico los esquemas totales (igual que antes)
+    resumen_total = df.groupby('mes').agg(esquemas=('esquema', 'nunique')).reset_index()
+    resumen_total['mes'] = resumen_total['mes'].astype(str)
+    axes[0, 0].plot(resumen_total['mes'], resumen_total['esquemas'], marker='o', linestyle='-', color='b')
+    axes[0, 0].set_title('Evolución de Esquemas')
+    axes[0, 0].set_xticklabels(resumen_total['mes'], rotation=45)
+    # Grafico la evolución de tablas por esquema
+    for esquema in resumen_esquema['esquema'].unique():
+        datos_esquema = resumen_esquema[resumen_esquema['esquema'] == esquema]
+        axes[0, 1].plot(datos_esquema['mes'].astype(str), datos_esquema['tablas'], marker='s', linestyle='-', label=esquema)
+    axes[0, 1].set_title('Evolución de Tablas por Esquema')
+    axes[0, 1].set_xticklabels(resumen_total['mes'], rotation=45)
+    axes[0, 1].legend()
+    # Grafico la evolución de vistas por esquema
+    for esquema in resumen_esquema['esquema'].unique():
+        datos_esquema = resumen_esquema[resumen_esquema['esquema'] == esquema]
+        axes[1, 0].plot(datos_esquema['mes'].astype(str), datos_esquema['vistas'], marker='^', linestyle='-', label=esquema)
+    axes[1, 0].set_title('Evolución de Vistas por Esquema')
+    axes[1, 0].set_xticklabels(resumen_total['mes'], rotation=45)
+    axes[1, 0].legend()
+    # Grafico la evolución de registros por esquema
+    for esquema in resumen_esquema['esquema'].unique():
+        datos_esquema = resumen_esquema[resumen_esquema['esquema'] == esquema]
+        axes[1, 1].plot(datos_esquema['mes'].astype(str), datos_esquema['registros'], marker='d', linestyle='-', label=esquema)
+    axes[1, 1].set_title('Evolución de Registros por Esquema')
+    axes[1, 1].set_xticklabels(resumen_total['mes'], rotation=45)
+    axes[1, 1].legend()
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    plt.savefig('evolucion_datalake_por_esquema.png')
+    plt.show()
+
 if __name__ == '__main__':
     archivo_csv = 'contenido_bd_2.csv'
     datos_procesados = procesar_datos(archivo_csv)
     generar_graficos(datos_procesados)
+    generar_graficos_por_esquema(archivo_csv)
