@@ -1,0 +1,51 @@
+esquema;tipo;nombre;registros;fecha_extraccion
+public;table;datacamp_courses;5;2025-02-26
+public;table;glpi_proyectos_2;1267;2025-02-26
+public;table;glpi_tickets_tasks_projects_202501301345;23545;2025-02-26
+public;table;glpi_tareas;2834;2025-02-26
+public;table;glpi_users_groups_202501301353;274076;2025-02-26
+public;materialized_view;glpi_users_groups_202502240956;274851;2025-02-26
+public;table;glpi_tickets_tasks_projects_202502240956;244317;2025-02-26
+public;table;datos_tabla;473730;2025-02-26
+public;table;vista_prueba;1;2025-02-26
+public;materialized view;prueb_mat;5;2025-02-26
+public;table;datacamp_courses;5;2025-03-28
+public;table;glpi_proyectos_2;1267;2025-03-28
+public;table;glpi_tickets_tasks_projects_202501301345;23545;2025-03-28
+public;table;glpi_tareas;2834;2025-03-28
+public;table;glpi_users_groups_202501301353;274076;2025-03-28
+public;table;glpi_users_groups_202502240956;274851;2025-03-28
+public;table;glpi_tickets_tasks_projects_202502240956;24417;2025-03-28
+public;table;datos_tabla;0;2025-03-28
+public;table;vista_prueba;1;2025-03-28
+public;materialized view;prueb_mat;5;2025-03-28
+public;table;datacamp_courses;5;2025-03-26
+public;table;glpi_proyectos_2;1267;2025-03-26
+public;table;glpi_tickets_tasks_projects_202501301345;23545;2025-03-26
+public;table;glpi_tareas;2834;2025-03-26
+public;table;glpi_users_groups_202501301353;274076;2025-03-26
+public;table;glpi_users_groups_202502240956;274851;2025-03-26
+public;table;glpi_tickets_tasks_projects_202502240956;24417;2025-03-26
+public;table;datos_tabla;0;2025-03-26
+public;table;vista_prueba;1;2025-03-26
+public;materialized view;prueb_mat;5;2025-03-26
+public;table;datacamp_courses;5;2025-03-28
+public;table;glpi_proyectos_2;1267;2025-03-28
+public;table;glpi_tickets_tasks_projects_202501301345;23545;2025-03-28
+public;table;glpi_tareas;2834;2025-03-28
+public;table;glpi_users_groups_202501301353;274076;2025-03-28
+public;table;glpi_users_groups_202502240956;274851;2025-03-28
+public;table;glpi_tickets_tasks_projects_202502240956;24417;2025-03-28
+public;table;datos_tabla;0;2025-04-28
+public;table;vista_prueba;1;2025-04-28
+public;materialized view;prueb_mat;5;2025-04-28
+public;table;datacamp_courses;5;2025-04-26
+public;materialized_view;glpi_proyectos_2;1267;2025-04-26
+public;materialized_view;glpi_tickets_tasks_projects_202501301345;23545;2025-04-26
+public;table;glpi_tareas;2834;2025-04-26
+public;table;glpi_users_groups_202501301353;274076;2025-04-26
+public;materialized_view;glpi_uses_groups_202502240956;274851;2025-04-26
+public;table;glpi_tickets_tasks_projects_202502240956;244317;2025-04-26
+public;table;datos_tabla;473730;2025-04-26
+public;table;vista_prueba;1;2025-04-26
+public;materialized view;prueb_mat_2;5;2025-04-26
