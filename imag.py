@@ -85,8 +85,28 @@ def generar_graficos_por_esquema(csv_file):
     plt.savefig('evolucion_datalake_por_esquema.png')
     plt.show()
 
+def procesar_datos_por_dia(csv_file):
+    # Cargo el CSV y proceso los datos para obtener valores máximos por día
+    df = pd.read_csv(csv_file, sep=';', encoding='utf-8')
+    df['fecha_extraccion'] = pd.to_datetime(df['fecha_extraccion'])
+    df['anio'] = df['fecha_extraccion'].dt.year
+    df['anio-mes'] = df['fecha_extraccion'].dt.to_period('M').astype(str)
+    df['anio-mes-dia'] = df['fecha_extraccion'].dt.to_period('D').astype(str)
+    
+    resumen_dia = df.groupby(['anio', 'anio-mes', 'anio-mes-dia']).agg(
+        esquemas=('esquema', 'nunique'),
+        tablas=('nombre', lambda x: x[df['tipo'] == 'table'].nunique()),
+        vistas=('nombre', lambda x: x[df['tipo'].str.contains('view')].nunique()),
+        registros=('registros', 'sum')
+    ).reset_index()
+    resumen_dia.to_csv('resumen_datalake_2_por_dia.csv', sep=';', index=False, encoding='utf-8')
+    return resumen_dia
+
+
+
 if __name__ == '__main__':
     archivo_csv = 'contenido_bd_2.csv'
     datos_procesados = procesar_datos(archivo_csv)
     generar_graficos(datos_procesados)
     generar_graficos_por_esquema(archivo_csv)
+    datos_por_día = procesar_datos_por_dia(archivo_csv)
